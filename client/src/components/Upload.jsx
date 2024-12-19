@@ -39,8 +39,8 @@ const Upload = ({ setData, setProgress, children, type }) => {
 
     return (
         <IKContext
-            publicKey="public_55qUsE/ezrLLUf90TsOw3bbMPpY="
-            urlEndpoint="https://ik.imagekit.io/kisinjakit"
+            publicKey={import.meta.env.VITE_IK_PUBLIC_KEY}
+            urlEndpoint={import.meta.env.VITE_IK_URL}
             authenticator={authenticator}
         >
             <IKUpload

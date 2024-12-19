@@ -19,12 +19,9 @@ const getPosts = async (req, res) => {
 };
 
 const getPostsBySlug = async (req, res) => {
-    try {
-        const post = await Post.findOne({ slug: req.params.slug });
-        res.status(200).json(post);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+    const post = await Post.findOne({ slug: req.params.slug }).populate('user', 'username img');
+
+    res.status(200).json(post);
 };
 
 const createPost = async (req, res) => {

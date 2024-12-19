@@ -31,7 +31,6 @@ const PostLists = () => {
         getNextPageParam: (lastPage, pages) => lastPage.hasMore ? pages.length + 1 : undefined
     });
 
-    console.log(data);
 
     if (status === "loading") return <p>Loading...</p>
 

@@ -30,7 +30,7 @@ const Homepage = () => {
                         width="200"
                         height="200"
                         className="text-lg tracking-widest animate-spin animated-btn"
-                        /* className="text-lg tracking-widest" */
+                    /* className="text-lg tracking-widest" */
                     >
                         <path
                             id="circlePath"
@@ -72,7 +72,7 @@ const Homepage = () => {
                 <PostLists />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Homepage;
