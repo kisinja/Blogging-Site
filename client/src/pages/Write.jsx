@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Upload from "../components/Upload";
+import { FcPicture } from "react-icons/fc";
+import { FcFilmReel } from "react-icons/fc";
 
 const Write = () => {
 
@@ -21,11 +23,11 @@ const Write = () => {
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-        img && setValue(prev => prev + `<p><img src="${img}" alt=""/></p>`);
+        img && setValue(prev => prev + `<p><img src="${img}" alt="" className=""/></p>`);
     }, [img]);
 
     useEffect(() => {
-        video && setValue(prev => prev + `<p><iframe className="ql-video rounded-xl" src="${video}"/></p>`);
+        video && setValue(prev => prev + `<p><iframe className="ql-video" src="${video}"/></p>`);
     }, [video]);
 
     const mutation = useMutation({
@@ -60,7 +62,7 @@ const Write = () => {
             category: formData.get('category'),
             desc: formData.get('desc'),
             content: value,
-            img: cover
+            img: cover || "",
         };
 
         mutation.mutate(data);
@@ -104,24 +106,30 @@ const Write = () => {
                     placeholder="A Short Description"
                     className="p-4 rounded-xl bg-white shadow-md"
                 />
-                <div className="flex flex-1">
-                    <div className="flex flex-col items-center gap-2 mr-2">
+                <div className="flex flex-1 relative">
+                    <div className="flex items-center gap-2 mr-2 absolute top-1 right-0 bg-red-100 p-1 rounded shadow-sm">
                         <Upload setData={setImg} setProgress={setProgress} type="image">
-                            📷
+                            <FcPicture
+                                className="text-2xl hover:bg-white rounded-full p-[2px] transition-all duration-200"
+                                title="Add picture"
+                            />
                         </Upload>
                         <Upload setData={setVideo} setProgress={setProgress} type="video">
-                            🎥
+                            <FcFilmReel
+                                className="text-2xl hover:bg-white rounded-full p-[2px] transition-all duration-200"
+                                title="Add video"
+                            />
                         </Upload>
                     </div>
                     <ReactQuill
                         theme="snow"
-                        className="flex-1 rounded-xl bg-white shadow-md"
+                        className="flex-1 h-fit rounded-xl bg-white shadow-md"
                         value={value}
                         onChange={setValue}
                         readOnly={0 < progress && progress < 100}
                     />
                 </div >
-                <button className="bg-blue-800 text-white font-medium rounded-xl mt-4 w-36 p-2 disabled:bg-blue-400 disabled:cursor-not-allowed" disabled={mutation.isPending || 0 < progress && progress < 100}>
+                <button className="bg-blue-800 text-white font-medium rounded-xl mt-4 w-36 p-2 disabled:bg-blue-400 disabled:cursor-not-allowed mb-6" disabled={mutation.isPending || 0 < progress && progress < 100}>
                     {mutation.isPending ? 'Sending...' : 'Send'}
                 </button>
                 {

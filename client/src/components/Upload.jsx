@@ -29,7 +29,6 @@ const Upload = ({ setData, setProgress, children, type }) => {
     };
 
     const onSuccess = (res) => {
-        console.log(res);
         setData(res.url);
     };
 

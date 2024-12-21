@@ -3,6 +3,7 @@ import Comment from "./Comment";
 import axios from "axios";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { toast } from "react-toastify";
+import { IoSendSharp } from "react-icons/io5";
 
 const fetchComments = async (postId) => {
     const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/comments/${postId}`);
@@ -58,20 +59,26 @@ const Comments = ({ postId }) => {
 
     return (
         <div className="flex flex-col gap-8 lg:w-3/5 mb-12">
-            <h1 className="text-xl text-gray-400 underline">Comments</h1>
+            <h1 className="text-xl text-gray-400 underline flex gap-2 items-center">Comments
+                <span className="">
+                    ({data.length})
+                </span>
+            </h1>
 
             <form className="flex items-center justify-between gap-8 w-full" onSubmit={handleSubmit}>
                 <textarea
-                    placeholder="Leave a comment..."
+                    placeholder={user.user === null ? "Please Login to write a comment ❗❗" : "Write a comment..."}
                     className="w-full h-[150px] p-4 rounded-xl"
                     name="desc"
+                    readOnly={user.user === null}
                 />
                 <button
-                    className="bg-blue-800 px-4 py-3 text-white font-medium rounded-xl disabled:bg-blue-600"
+                    className="bg-blue-800 px-4 py-3 text-white font-medium rounded-xl disabled:bg-blue-300"
                     type="submit"
                     disabled={mutation.isPending}
                 >
-                    {mutation.isPending ? 'Sending...' : 'Send'}
+                    {/* {mutation.isPending ? 'Sending...' : 'Send'} */}
+                    <IoSendSharp className="text-xl" />
                 </button>
             </form>
 
