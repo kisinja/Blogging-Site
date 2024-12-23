@@ -23,7 +23,7 @@ const Write = () => {
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-        img && setValue(prev => prev + `<p><img src="${img}" alt="" className=""/></p>`);
+        img && setValue(prev => prev + `<p><img src="${img}" alt="" className="" width="300" height="300" /></p>`);
     }, [img]);
 
     useEffect(() => {
@@ -99,6 +99,9 @@ const Write = () => {
                         <option value="databases">Databases</option>
                         <option value="seo">Search Engines</option>
                         <option value="marketing">Marketing</option>
+                        <option value="automotive">Automotive</option>
+                        <option value="football">Football</option>
+                        <option value="mma">MMA</option>
                     </select>
                 </div>
                 <textarea

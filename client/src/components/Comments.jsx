@@ -7,7 +7,6 @@ import { IoSendSharp } from "react-icons/io5";
 
 const fetchComments = async (postId) => {
     const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/comments/${postId}`);
-    console.log(res);
 
     return res.data;
 };
@@ -109,7 +108,7 @@ const Comments = ({ postId }) => {
 
             {
                 data.map((comment) => (
-                    <Comment key={comment._id} comment={comment} />
+                    <Comment key={comment._id} comment={comment} postId={comment._id} />
                 ))
             }
         </div>
