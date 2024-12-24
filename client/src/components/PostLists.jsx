@@ -14,12 +14,11 @@ const PostLists = () => {
 
         const searchParamsObj = Object.fromEntries([...searchParams]);
 
-        console.log(searchParamsObj);
-
         const res = await axios.get(`${backendUrl}/posts`, {
             params: {
                 page: pageParam,
-                searchParamsObj
+                limit: 10,
+                ...searchParamsObj
             }
         });
         return res.data;
@@ -47,6 +46,9 @@ const PostLists = () => {
 
     const allPosts = data?.pages?.flatMap(page => page.posts) || [];
 
+    if (allPosts.length === 0) {
+        return <p className="text-lg">No posts found!</p>
+    }
 
     return (
         <InfiniteScroll

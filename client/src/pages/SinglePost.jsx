@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { AppContext } from '../context/AppContext';
 import { useContext } from 'react';
+import ShareButtons from '../components/ShareButtons';
 
 const fetchPost = async (slug) => {
     const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/posts/${slug}`);
@@ -38,9 +39,9 @@ const SinglePost = () => {
                     <h1 className='text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-semibold'>{data.title}</h1>
                     <div className='flex gap-4 items-center text-gray-400 text-sm'>
                         <span>Written by</span>
-                        <Link to="" className='text-blue-800'>{data.user.username}</Link>
+                        <Link to={`/posts?author=${data.user.username}`} className='text-blue-800'>{data.user.username}</Link>
                         <span>on</span>
-                        <Link className='text-blue-800'>{data.category}</Link>
+                        <Link className='text-blue-800' to={`/posts?cat=${data.category}`}>{data.category}</Link>
                         <span>
                             {
                                 formatTimeAgo(data.createdAt)
@@ -96,7 +97,19 @@ const SinglePost = () => {
                 </div>
             </div>
 
-            <Comments postId={data._id} />
+            <div className="flex flex-col gap-6">
+                <ShareButtons post={data} />
+
+                <div className="flex items-center gap-2 mt-4 text-gray-600 text-md">
+                    <span className="">This post has been shared</span>
+                    <span className="font-bold">{data?.shares || "0"}</span>
+                    <span className="">
+                        time{data?.shares > 1 && "s"}
+                    </span>
+                </div>
+
+                <Comments postId={data._id} />
+            </div>
         </div>
     )
 }

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Search from "./Search";
 
 const MainCategories = () => {
     return (
@@ -14,6 +15,9 @@ const MainCategories = () => {
                 <Link to="/posts?cat=development" className=" rounded-full px-4 py-2 hover:bg-blue-50">
                     Development
                 </Link>
+                {/* <Link to="/posts?cat=automotive" className=" rounded-full px-4 py-2 hover:bg-blue-50">
+                    Automotive
+                </Link> */}
                 <Link to="/posts?cat=databases" className=" rounded-full px-4 py-2 hover:bg-blue-50">
                     Databases
                 </Link>
@@ -28,22 +32,7 @@ const MainCategories = () => {
             <span className="text-xl font-medium">|</span>
 
             {/* search */}
-            <div className="bg-gray-100 p-2 rounded-full flex items-center gap-2">
-
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="gray"
-                >
-                    <circle cx="10.5" cy="10.5" r="7.5" />
-                    <line x1="16.5" y1="16.5" x2="22" y2="22" />
-                </svg>
-
-                <input type="text" placeholder="Search for a post..." id="" className="bg-transparent focus:outline-none" />
-            </div>
+            <Search />
         </div>
     )
 }

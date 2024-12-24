@@ -33,6 +33,10 @@ const getPosts = async (req, res) => {
         query.user = user._id;
     }
 
+    if (featured) {
+        query.isFeatured = true;
+    }
+
     let sortObj = { createdAt: -1 };
 
     if (sortQuery) {
@@ -70,6 +74,7 @@ const getPosts = async (req, res) => {
 };
 
 const getPostsBySlug = async (req, res) => {
+
     const post = await Post.findOne({ slug: req.params.slug }).populate('user', 'username img');
 
     res.status(200).json(post);
@@ -144,6 +149,23 @@ const featurePost = async (req, res) => {
     res.status(200).json({ updatedPost });
 };
 
+const sharePost = async (req, res) => {
+
+    const { postId } = req.body;
+
+    const post = await Post.findByIdAndUpdate(
+        postId,
+        { $inc: { shares: 1 } },
+        { new: true }
+    );
+
+    if (!post) {
+        return res.status(404).json({ message: 'Post not found!' });
+    }
+
+    res.status(200).json({ shares: post.shares });
+};
+
 const imagekit = new ImageKit({
     urlEndpoint: "https://ik.imagekit.io/kisinjakit",
     publicKey: "public_55qUsE/ezrLLUf90TsOw3bbMPpY=",
@@ -164,5 +186,6 @@ export {
     createPost,
     deletePost,
     uploadAuth,
-    featurePost
+    featurePost,
+    sharePost
 };

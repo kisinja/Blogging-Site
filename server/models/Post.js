@@ -35,7 +35,11 @@ const postSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    visit: {
+    visits: {
+        type: Number,
+        default: 0,
+    },
+    shares: {
         type: Number,
         default: 0,
     },
