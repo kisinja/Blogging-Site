@@ -49,7 +49,7 @@ const FeaturedPosts = () => {
             </div>
 
             {/* Other posts */}
-            <div className="w-full lg:w-1/2 flex flex-col gap-4">
+            <div className="w-full lg:w-1/2 flex flex-col gap-6">
                 {/* second */}
                 {posts[1] && <div className="lg:h-1/3 flex justify-between gap-4">
                     <div className="w-1/3 aspect-video">
@@ -71,7 +71,7 @@ const FeaturedPosts = () => {
                         </div>
                         {/* title */}
                         <Link to={`/${posts[1].slug}`} className="text-base sm:text-lg md:text-2xl lg:text-xl xl:text-2xl font-medium">
-                            {posts[1].title}
+                            {posts[1].title.slice(0, 60)}...
                         </Link>
                     </div>
                 </div>}
@@ -99,7 +99,7 @@ const FeaturedPosts = () => {
                             to={posts[1].slug}
                             className="text-base sm:text-lg md:text-2xl lg:text-xl xl:text-2xl font-medium"
                         >
-                            {posts[2].title}
+                            {posts[2].title.slice(0, 60)}...
                         </Link>
                     </div>
                 </div>}

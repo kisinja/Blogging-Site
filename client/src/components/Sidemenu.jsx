@@ -1,9 +1,10 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Search from "./Search";
 
 const Sidemenu = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
 
     const searchTerm = searchParams.get("cat");
 
@@ -11,13 +12,15 @@ const Sidemenu = () => {
 
         if (searchParams.get("sort") !== e.target.value) {
             setSearchParams({ ...Object.fromEntries(searchParams), sort: e.target.value });
-        };
-    }
+        }
+    };
 
     const handleCategoryChange = (cat) => {
         if (searchParams.get("cat") !== cat) {
             setSearchParams({ ...Object.fromEntries(searchParams), cat });
-        };
+        } else if (searchParams.get("cat") === "general") {
+            navigate("/posts");
+        }
     };
 
     return (

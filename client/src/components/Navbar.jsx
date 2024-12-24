@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "./Image";
 import { Link } from "react-router-dom";
-import { SignedIn, SignedOut, useAuth, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import { TiThMenu } from "react-icons/ti";
 
 const Navbar = () => {
@@ -43,8 +43,9 @@ const Navbar = () => {
                 <div className={`w-full h-screen flex flex-col items-center justify-center absolute top-16 ${openMenu ? 'right-0' : 'right-[100%]'} transition-all ease-in-out bg-[#e6e6ff] gap-8 font-medium text-lg`}>
                     <Link to="/" onClick={() => setOpenMenu(prev => !prev)}>Home</Link>
                     <Link to="/write" onClick={() => setOpenMenu(prev => !prev)}>Write a story</Link>
-                    <Link to="/hot-trending" onClick={() => setOpenMenu(prev => !prev)}>Trending</Link>
-                    <Link to="/posts" onClick={() => setOpenMenu(prev => !prev)}>Most Popular</Link>
+                    <Link to="/posts" onClick={() => setOpenMenu(prev => !prev)}>Posts</Link>
+                    <Link to={`/posts?sort=trending`} onClick={() => setOpenMenu(prev => !prev)}>Trending</Link>
+                    <Link to={`/posts?sort=popular`} onClick={() => setOpenMenu(prev => !prev)}>Most Popular</Link>
                     <Link to="/about" onClick={() => setOpenMenu(prev => !prev)}>About</Link>
 
                     <SignedOut>
@@ -61,8 +62,9 @@ const Navbar = () => {
             {/* desktop menu */}
             <div className="hidden md:flex items-center gap-8 xl:gap-12 font-medium">
                 <Link to="/">Home</Link>
-                <Link to="/hot-trending">Trending</Link>
-                <Link to="/posts">Most Popular</Link>
+                <Link to="/posts">Posts</Link>
+                <Link to={`/posts?sort=trending`}>Trending</Link>
+                <Link to={`/posts?sort=popular`}>Most Popular</Link>
                 <Link to="/about">About</Link>
 
                 <SignedOut>
