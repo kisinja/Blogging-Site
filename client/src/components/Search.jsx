@@ -11,7 +11,9 @@ const Search = () => {
             if (location.pathname === "/posts") {
                 const searchObj = Object.fromEntries(searchParams);
                 setSearchParams({ ...searchObj, search: query });
-            } else if(location.pathname === "/") {
+            } else if (location.pathname === "/") {
+                navigate(`/posts?search=${query}`);
+            } else {
                 navigate(`/posts?search=${query}`);
             }
         }

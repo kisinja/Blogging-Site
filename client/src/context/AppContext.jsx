@@ -61,13 +61,11 @@ const AppProvider = ({ children }) => {
             const res = axios.patch(`${backendUrl}/posts/share`, { postId });
             if (res.status === 200) {
                 console.log(res);
-                toast.success("Post shared to " + platform);
             } else {
                 toast.error(res.data.message);
             }
         } catch (error) {
             console.error(error.response?.data || error.message);
-            toast.error("Failed to share post");
         }
 
         // Open the share URL in a new tab

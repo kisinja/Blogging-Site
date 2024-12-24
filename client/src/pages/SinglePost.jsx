@@ -97,14 +97,12 @@ const SinglePost = () => {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-4">
                 <ShareButtons post={data} />
 
                 <div className="flex items-center gap-2 mt-4 text-gray-600 text-md">
-                    <span className="">This post has been shared</span>
-                    <span className="font-bold">{data?.shares || "0"}</span>
-                    <span className="">
-                        time{data?.shares > 1 && "s"}
+                    <span>
+                        Shares: {data.shares || 0}
                     </span>
                 </div>
 
