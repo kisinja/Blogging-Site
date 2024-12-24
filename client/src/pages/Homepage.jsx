@@ -2,8 +2,11 @@ import { Link } from "react-router-dom"
 import MainCategories from "../components/MainCategories";
 import FeaturedPosts from "../components/FeaturedPosts";
 import PostLists from "../components/PostLists";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 const Homepage = () => {
+
     return (
         <div className="mt-4 flex flex-col gap-4">
 

@@ -187,5 +187,5 @@ export {
     deletePost,
     uploadAuth,
     featurePost,
-    sharePost
+    sharePost,
 };
