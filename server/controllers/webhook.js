@@ -27,15 +27,23 @@ const clerkWebHook = async (req, res) => {
 
 
     if (event.type === 'user.created') {
+        console.log("User creation event received:", event.data);
+
         const newUser = new User({
             clerkUserId: event.data.id,
             username: event.data.username,
-            email: event.data.email_addresses[0].email_address,
+            email: event.data.email_addresses[0]?.email_address,
             img: event.data.profile_image_url,
         });
 
-        await newUser.save();
+        try {
+            await newUser.save();
+            console.log("New user created successfully:", newUser);
+        } catch (error) {
+            console.error("Failed to save user to DB:", error.message);
+        }
     }
+
 
     if (event.type === 'user.deleted') {
         const deletedUser = await User.findOneAndDelete({
