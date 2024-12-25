@@ -19,12 +19,11 @@ const clerkWebHook = async (req, res) => {
     try {
         event = wh.verify(payload, headers);
     } catch (error) {
-        res.status(400).json({
+        return res.status(400).json({
             message: "Webhook verification failed",
             error: error.message,
         });
     }
-
 
     if (event.type === 'user.created') {
         console.log("User creation event received:", event.data);
@@ -44,18 +43,21 @@ const clerkWebHook = async (req, res) => {
         }
     }
 
-
     if (event.type === 'user.deleted') {
-        const deletedUser = await User.findOneAndDelete({
-            clerkUserId: event.data.id
-        });
+        const deletedUser = await User.findOne({ clerkUserId: event.data.id });
 
+        if (!deletedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Proceed with deleting the user's posts and comments if user exists
         await Post.deleteMany({ user: deletedUser._id });
         await Comment.deleteMany({ user: deletedUser._id });
+
+        console.log(`User with clerkUserId ${event.data.id} deleted successfully`);
     }
 
     res.status(200).json({ message: "Webhook received" });
-
 };
 
 export { clerkWebHook };

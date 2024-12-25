@@ -7,7 +7,7 @@ const getSavedPosts = async (req, res) => {
     }
     const user = await User.findOne({ clerkUserId: clerkUserId });
 
-    res.status(200).json(user.savedPosts);
+    res.status(200).json(user?.savedPosts);
 };
 
 const savePost = async (req, res) => {
