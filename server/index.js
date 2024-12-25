@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import { clerkMiddleware, requireAuth } from "@clerk/express";
 import cors from 'cors';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 import userRouter from './routes/user.js';
 import postRouter from './routes/post.js';
@@ -22,6 +23,9 @@ app.use('/webhooks', webHookRouter);
 app.use(express.json());
 app.use(morgan('common'));
 /* app.use(bodyParser.json()); */
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // middleware to allow sending of public files
 app.use(express.static(path.join(__dirname, 'public')));
