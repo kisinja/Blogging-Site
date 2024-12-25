@@ -14,7 +14,9 @@ import connectDB from './db.js';
 const app = express();
 
 app.use(clerkMiddleware());
-app.use(cors(process.env.CLIENT_URL));
+app.use(cors({
+    origins: ['https://elvisblog.onrender.com', 'http://localhost:5173']
+}));
 app.use('/webhooks', webHookRouter);
 app.use(express.json());
 app.use(morgan('common'));
