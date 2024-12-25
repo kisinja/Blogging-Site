@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import { clerkMiddleware, requireAuth } from "@clerk/express";
 import cors from 'cors';
+import path from 'path';
 
 import userRouter from './routes/user.js';
 import postRouter from './routes/post.js';
@@ -15,12 +16,15 @@ const app = express();
 
 app.use(clerkMiddleware());
 app.use(cors({
-    origins: ['https://elvisblog.onrender.com', 'http://localhost:5173']
+    origins: [process.env.CLIENT_URL_DEVELOPMENT, process.env.CLIENT_URL_PRODUCTION],
 }));
 app.use('/webhooks', webHookRouter);
 app.use(express.json());
 app.use(morgan('common'));
 /* app.use(bodyParser.json()); */
+
+// middleware to allow sending of public files
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -38,6 +42,10 @@ dotenv.config();
 app.use('/users', userRouter);
 app.use('/posts', postRouter);
 app.use('/comments', commentRouter);
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 /* app.get('/', (req, res) => {
     res.send('Hello World');

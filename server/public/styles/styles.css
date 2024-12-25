@@ -1,0 +1,75 @@
+/* Montserrat font */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body{
+    background: rgb(188, 238, 255);
+}
+
+.container{
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 50px 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 30px;
+    background-color: white;
+}
+
+.img-container{
+    display: flex;
+    gap:10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.content{
+    text-justify: distribute-all-lines;
+}
+
+.description{
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin: 20px 0;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+button{
+    background-color: rgb(0, 42, 255);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+button a{
+    color: white;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.btn-container{
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+button:focus{
+    scale: 0.9;
+}
