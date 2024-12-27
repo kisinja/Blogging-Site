@@ -2,10 +2,12 @@ import { Link } from "react-router-dom"
 import MainCategories from "../components/MainCategories";
 import FeaturedPosts from "../components/FeaturedPosts";
 import PostLists from "../components/PostLists";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
 
 const Homepage = () => {
+    const { backendUrl, setToken } = useContext(AppContext);
+    console.log(backendUrl);
 
     return (
         <div className="mt-4 flex flex-col gap-4">

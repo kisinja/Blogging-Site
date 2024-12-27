@@ -1,11 +1,6 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
-    clerkUserId: {
-        type: String,
-        required: true,
-        unique: true,
-    },
     username: {
         type: String,
         required: true,
@@ -18,12 +13,20 @@ const userSchema = new mongoose.Schema({
     },
     img: {
         type: String,
-        default: "",
+        default: "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg",
     },
     savedPosts: {
         type: [String],
         default: [],
-    }
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    role: {
+        type: String,
+        default: "user",
+    },
 }, { timestamps: true });
 
 export default mongoose.model('User', userSchema);

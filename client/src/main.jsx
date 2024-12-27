@@ -1,4 +1,3 @@
-import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import {
@@ -16,6 +15,10 @@ import { ClerkProvider } from '@clerk/clerk-react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AppProvider from './context/AppContext.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+import PublicRoute from './components/PublicRoute.jsx';
+import { Provider } from 'react-redux';
+import { store } from './store.js';
 
 import {
   QueryClient,
@@ -38,19 +41,35 @@ const router = createBrowserRouter([
       },
       {
         path: "/:slug",
-        element: <SinglePost />
+        element: (
+          <ProtectedRoute>
+            <SinglePost />
+          </ProtectedRoute>
+        )
       },
       {
         path: "/write",
-        element: <Write />
+        element: (
+          <ProtectedRoute>
+            <Write />
+          </ProtectedRoute>
+        )
       },
       {
         path: "/login",
-        element: <Login />
+        element: (
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        )
       },
       {
         path: "/register",
-        element: <Register />
+        element: (
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        )
       },
     ]
   }
@@ -65,12 +84,14 @@ if (!PUBLISHABLE_KEY) {
 };
 
 createRoot(document.getElementById('root')).render(
-  <AppProvider>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <ToastContainer position='bottom-right' />
-      </QueryClientProvider>
-    </ClerkProvider>
-  </AppProvider>,
+  <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+    <QueryClientProvider client={queryClient}>
+      <AppProvider>
+        <Provider store={store}>
+          <RouterProvider router={router} />
+          <ToastContainer position="bottom-right" />
+        </Provider>
+      </AppProvider>
+    </QueryClientProvider>
+  </ClerkProvider>,
 );

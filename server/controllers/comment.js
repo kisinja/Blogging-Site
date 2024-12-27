@@ -2,12 +2,9 @@ import Comment from '../models/Comment.js';
 import User from '../models/User.js';
 
 const addComment = async (req, res) => {
-    const clerkUserId = req.auth.userId;
-    if (!clerkUserId) {
-        return res.status(403).json({ message: 'Not Authenticated' });
-    }
+    const userId = req.user;
 
-    const user = await User.findOne({ clerkUserId });
+    const user = await User.findById(userId);
     if (!user) {
         return res.status(404).json({ message: 'User not found' });
     }
@@ -27,10 +24,10 @@ const addComment = async (req, res) => {
 
 
 const deleteComment = async (req, res) => {
-    const clerkUserId = req.auth.userId;
+    const userId = req.user;
     const id = req.params.id;
 
-    if (!clerkUserId) {
+    if (!userId) {
         return res.status(403).json({ message: 'Not Authorized' });
     };
 
@@ -40,7 +37,7 @@ const deleteComment = async (req, res) => {
         return res.status(200).json({ message: "Comment deleted successfully" });
     }
 
-    const user = await User.findOne({ clerkUserId });
+    const user = await User.findById(userId);
     const deletedComment = await Comment.findOneAndDelete({ _id: id, user: user._id });
     if (!deletedComment) {
         return res.status(403).json({ message: 'Action unauthorized!' });

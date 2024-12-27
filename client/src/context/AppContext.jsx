@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useEffect, useState } from "react";
 import axios from 'axios';
 import { toast } from "react-toastify";
 
@@ -6,7 +6,34 @@ export const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    const backendUrl = useState(import.meta.env.VITE_BACKEND_URL);
+
+    const [token, setToken] = useState(
+        localStorage.getItem("token") || ""
+    );
+    const [userData, setUserData] = useState(false);
+    const [userLoading, setUserLoading] = useState(false);
+
+    const loadUserProfile = async () => {
+        try {
+            setUserLoading(true);
+            const { data } = await axios.get(`${backendUrl}/user/profile`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (data.success) {
+                setUserData(data.user);
+            } else {
+                //toast.error(data.message);
+            }
+        } catch (error) {
+            console.log(error.message);
+            //toast.error(error.message);
+        } finally {
+            setUserLoading(false);
+        }
+    };
 
     function formatTimeAgo(createdAt) {
         const now = new Date();
@@ -75,7 +102,21 @@ const AppProvider = ({ children }) => {
     const value = {
         formatTimeAgo,
         handleShareToPlatform,
+        loadUserProfile,
+        token,
+        setToken,
+        userData,
+        userLoading,
+        backendUrl
     };
+
+    useEffect(() => {
+        if (token) {
+            loadUserProfile();
+        } else {
+            setUserData(false);
+        }
+    }, []);
 
     return (
         <AppContext.Provider value={value}>

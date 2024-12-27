@@ -1,19 +1,18 @@
-import { useUser, useAuth } from '@clerk/clerk-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const PostMenuActions = ({ post }) => {
 
-    const { user } = useUser();
-    const { getToken } = useAuth();
+    const user = useSelector(state => state.auth.user);
+    const token = localStorage.getItem('token') || "";
     const navigate = useNavigate();
 
     const { isPending, error, data: savedPosts } = useQuery({
         queryKey: ["savedPosts"],
         queryFn: async () => {
-            const token = await getToken();
             const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/saved`, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -28,7 +27,6 @@ const PostMenuActions = ({ post }) => {
 
     const deleteMutation = useMutation({
         mutationFn: async () => {
-            const token = await getToken();
             const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/posts/${post._id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -49,7 +47,6 @@ const PostMenuActions = ({ post }) => {
 
     const saveMutation = useMutation({
         mutationFn: async () => {
-            const token = await getToken();
             const res = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/users/posts/save`, { postId: post._id }, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -67,7 +64,6 @@ const PostMenuActions = ({ post }) => {
 
     const featureMutation = useMutation({
         mutationFn: async () => {
-            const token = await getToken();
             const res = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/posts/feature`, { postId: post._id }, {
                 headers: {
                     Authorization: `Bearer ${token}`

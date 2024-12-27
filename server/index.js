@@ -10,6 +10,7 @@ import userRouter from './routes/user.js';
 import postRouter from './routes/post.js';
 import commentRouter from './routes/comment.js';
 import webHookRouter from './routes/webhooks.js';
+import authRouter from './routes/auth.js';
 
 import connectDB from './db.js';
 
@@ -46,6 +47,7 @@ dotenv.config();
 app.use('/users', userRouter);
 app.use('/posts', postRouter);
 app.use('/comments', commentRouter);
+app.use('/auth', authRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

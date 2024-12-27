@@ -12,7 +12,6 @@ import { FcFilmReel } from "react-icons/fc";
 
 const Write = () => {
 
-    const { isLoaded, isSignedIn } = useUser();
     const { getToken } = useAuth();
     const [value, setValue] = useState('');
     const nav = useNavigate();
@@ -44,14 +43,6 @@ const Write = () => {
             nav(`/${res.data.slug}`);
         }
     });
-
-    if (!isLoaded) {
-        return <div className="">Loading...</div>;
-    }
-
-    if (isLoaded && !isSignedIn) {
-        return <div className="">Please sign in</div>;
-    }
 
     const handleSubmit = (e) => {
         e.preventDefault();

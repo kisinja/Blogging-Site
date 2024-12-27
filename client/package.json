@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.20.2",
+    "@reduxjs/toolkit": "^2.5.0",
     "@tanstack/react-query": "^5.62.8",
     "axios": "^1.7.9",
+    "firebase": "^11.1.0",
     "imagekitio-react": "^4.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -20,6 +22,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-quill": "^2.0.0",
     "react-quill-new": "^3.3.3",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.0.2",
     "react-toastify": "^11.0.1",
     "timeago.js": "^4.0.2"

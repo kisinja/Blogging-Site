@@ -82,12 +82,12 @@ const getPostsBySlug = async (req, res) => {
 
 const createPost = async (req, res) => {
 
-    const clerkUserId = req.auth.userId;
-    if (!clerkUserId) {
+    const userId = req.user;
+    if (!userId) {
         return res.status(401).json({ message: 'Not Authenticated' });
     }
 
-    const user = await User.findOne({ clerkUserId });
+    const user = await User.findById(userId);
     if (!user) {
         return res.status(404).json({ message: 'User not found' });
     }
@@ -103,8 +103,8 @@ const createPost = async (req, res) => {
 
 const deletePost = async (req, res) => {
 
-    const clerkUserId = req.auth.userId;
-    if (!clerkUserId) {
+    const userId = req.user;
+    if (!userId) {
         return res.status(401).json({ message: 'Not Authenticated' });
     }
 
@@ -114,7 +114,7 @@ const deletePost = async (req, res) => {
         return res.status(200).json({ message: "Post deleted successfully" });
     }
 
-    const user = await User.findOne({ clerkUserId });
+    const user = await User.findById(userId);
 
     const post = await Post.findByIdAndDelete({ _id: req.params.id, user: user._id });
     if (!post) {
