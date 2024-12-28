@@ -98,12 +98,12 @@ const google = async (req, res) => {
 
             return res.status(200).json({ success: true, token, user: rest });
         } else {
-            const generatedPassword = Math.round().toString(36).slice(-8) + Math.round().toString(36).slice(-8);
+            const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
 
             const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
 
             const newUser = new User({
-                username: username.toLowerCase().split(" ").join("") + Math.round().toString(9).slice(-4),
+                username: username.toLowerCase().split(" ").join("") + Math.random().toString(9).slice(-4),
                 email,
                 password: hashedPassword,
                 img: googlePhotoUrl,
