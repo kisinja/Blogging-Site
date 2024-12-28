@@ -22,26 +22,32 @@ const Login = () => {
             if (state === 'Sign Up') {
                 const { data } = await axios.post(`${backendUrl}/auth/register`, { username, email, password });
                 if (data.success) {
-                    toast.success(data.message);
+                    toast.success("Sign up successful!");
 
                     // set token to local storage
                     localStorage.setItem('token', data.token);
 
                     // set user
                     localStorage.setItem('user', JSON.stringify(data.user));
+
+                    // reload the page
+                    window.location.reload();
                 } else {
                     toast.error(data.message);
                 }
             } else {
                 const { data } = await axios.post(`${backendUrl}/auth/login`, { email, password });
                 if (data.success) {
-                    toast.success(data.message);
+                    toast.success("Login successful!");
 
                     // set token to local storage
                     localStorage.setItem('token', data.token);
 
                     // set user
                     localStorage.setItem('user', JSON.stringify(data.user));
+
+                    // reload the page
+                    window.location.reload();
                 } else {
                     toast.error(data.message);
                 }

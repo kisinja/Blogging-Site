@@ -2,22 +2,28 @@ import jwt from 'jsonwebtoken';
 
 const authUser = async (req, res, next) => {
     try {
-        const token = req.headers.authorization && req.headers.authorization.split(" ")[1];
-        if (!token) return res.status(400).json({ message: "Authorization required!!", success: false });
+        // Extract token from Authorization header
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ message: "Authorization required", success: false });
+        }
 
-        // Decode the token to get the user ID
-        const tokenDecode = jwt.verify(token, process.env.JWT_SECRET);
+        const token = authHeader.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({ message: "Token missing", success: false });
+        }
 
-        // Store the user's ID from the token in req.user
-        req.user = tokenDecode.id;
+        // Decode and verify the token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        // Optionally, if you want to fetch the full user data
-        // req.user = await User.findById(tokenDecode.id).select("-password");
+        // Store user ID in req.user (or fetch full user data if needed)
+        req.user = decoded.id;
 
+        // Proceed to the next middleware
         next();
     } catch (error) {
-        console.log(error.message);
-        res.status(401).json({ message: "Unauthorized", success: false });
+        console.error("Error in auth middleware:", error.message);
+        res.status(401).json({ message: "Unauthorized access", success: false });
     }
 };
 

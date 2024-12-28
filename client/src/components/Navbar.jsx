@@ -4,14 +4,17 @@ import { Link } from "react-router-dom";
 import { TiThMenu } from "react-icons/ti";
 import { useSelector, useDispatch } from "react-redux";
 import { logOut } from "../firebase.js";
+import { FiLogOut } from "react-icons/fi";
 
 const Navbar = () => {
     const [openMenu, setOpenMenu] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
 
     const handleLogout = () => {
         dispatch(logOut()); // Dispatch logout action
+        setDropdownOpen(false); // Close dropdown after logout
     };
 
     return (
@@ -39,7 +42,7 @@ const Navbar = () => {
                     )}
                 </div>
 
-                <div className={`w-full h-screen flex flex-col items-center justify-center absolute top-16 ${openMenu ? 'right-0' : 'right-[100%]'} transition-all ease-in-out bg-[#e6e6ff] gap-8 font-medium text-lg`}>
+                <div className={`w-full z-50 h-screen flex flex-col items-center justify-center absolute top-16 ${openMenu ? 'right-0' : 'right-[100%]'} transition-all ease-in-out bg-[#e6e6ff] gap-8 font-medium text-lg`}>
                     <Link to="/" onClick={() => setOpenMenu(prev => !prev)}>Home</Link>
                     <Link to="/write" onClick={() => setOpenMenu(prev => !prev)}>Write a story</Link>
                     <Link to="/posts" onClick={() => setOpenMenu(prev => !prev)}>Posts</Link>
@@ -73,9 +76,27 @@ const Navbar = () => {
                         <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">Login 👋</button>
                     </Link>
                 ) : (
-                    <div className="flex items-center gap-4">
-                        <img src={user.img} alt="User" className="w-8 h-8 rounded-full" />
-                        <button onClick={handleLogout} className="py-2 px-4 rounded-3xl bg-red-600 text-white">Logout</button>
+                    <div className="relative">
+                        <img
+                            src={user.img}
+                            alt="User"
+                            className="w-8 h-8 rounded-full cursor-pointer"
+                            onClick={() => setDropdownOpen(prev => !prev)}
+                        />
+                        {dropdownOpen && (
+                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-md py-2 z-10">
+                                <Link to="/profile">
+                                    <p className="px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">@  {user.username}</p>
+                                </Link>
+                                <button
+                                    onClick={handleLogout}
+                                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                                >
+                                    <FiLogOut className="inline mr-2" />
+                                    Logout
+                                </button>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

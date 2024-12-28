@@ -83,6 +83,7 @@ const getPostsBySlug = async (req, res) => {
 const createPost = async (req, res) => {
 
     const userId = req.user;
+    console.log(userId);
     if (!userId) {
         return res.status(401).json({ message: 'Not Authenticated' });
     }
@@ -108,18 +109,20 @@ const deletePost = async (req, res) => {
         return res.status(401).json({ message: 'Not Authenticated' });
     }
 
-    const role = req.auth.sessionClaims?.metadata?.role || "user";
-    if (role === "admin") {
-        await Post.findByIdAndDelete(req.params.id);
-        return res.status(200).json({ message: "Post deleted successfully" });
-    }
-
     const user = await User.findById(userId);
+    if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+    }
 
     const post = await Post.findByIdAndDelete({ _id: req.params.id, user: user._id });
     if (!post) {
         return res.status(403).json({ message: 'You can only delete your post!' });
     }
+
+    if (user.role !== "admin" || post.user !== user._id) {
+        return res.status(403).json({ message: 'You cannot delete this post!' });
+    }
+
     res.status(200).json({ message: "Post deleted successfully" });
 };
 
@@ -127,14 +130,18 @@ const featurePost = async (req, res) => {
 
     const { postId } = req.body;
 
-    const clerkUserId = req.auth.userId;
-    if (!clerkUserId) {
+    const userId = req.user;
+    if (!userId) {
         return res.status(401).json({ message: 'Not Authenticated' });
     }
 
-    const role = req.auth.sessionClaims?.metadata?.role || "user";
-    if (role !== "admin") {
-        return res.status(403).json("You cannot feature posts!");
+    const user = await User.findById(userId);
+    if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.role !== "admin") {
+        return res.status(403).json({ message: 'You are not authorized to feature a post!' });
     }
 
     const post = await Post.findById(postId);

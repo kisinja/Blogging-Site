@@ -9,7 +9,6 @@ import PostListPage from './pages/PostListPage.jsx';
 import SinglePost from './pages/SinglePost.jsx';
 import Write from './pages/Write.jsx';
 import Login from './pages/Login.jsx';
-import Register from './pages/Register.jsx';
 import MainLayout from './layout/MainLayout.jsx';
 import { ClerkProvider } from '@clerk/clerk-react';
 import { ToastContainer } from 'react-toastify';
@@ -24,6 +23,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
+import ProfilePage from './pages/ProfilePage.jsx';
 
 const queryClient = new QueryClient();
 
@@ -64,11 +64,11 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: "/register",
+        path: "/profile",
         element: (
-          <PublicRoute>
-            <Register />
-          </PublicRoute>
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
         )
       },
     ]

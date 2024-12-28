@@ -1,4 +1,3 @@
-import { useAuth, useUser } from "@clerk/clerk-react";
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from "react-quill-new";
 import { useMutation } from "@tanstack/react-query";
@@ -12,7 +11,7 @@ import { FcFilmReel } from "react-icons/fc";
 
 const Write = () => {
 
-    const { getToken } = useAuth();
+    const token = localStorage.getItem("token") || "";
     const [value, setValue] = useState('');
     const nav = useNavigate();
 
@@ -31,7 +30,6 @@ const Write = () => {
 
     const mutation = useMutation({
         mutationFn: async (newPost) => {
-            const token = await getToken();
             return axios.post(`${import.meta.env.VITE_BACKEND_URL}/posts`, newPost, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -54,6 +52,7 @@ const Write = () => {
             desc: formData.get('desc'),
             content: value,
             img: cover || "",
+
         };
 
         mutation.mutate(data);
