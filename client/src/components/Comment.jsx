@@ -1,24 +1,22 @@
 import { useContext } from "react"
 import Image from "./Image";
 import { AppContext } from "../context/AppContext";
-import { useAuth, useUser } from "@clerk/clerk-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const Comment = ({ comment, postId }) => {
 
     const { formatTimeAgo } = useContext(AppContext);
-    const user = useUser().user;
-    const { getToken } = useAuth();
-
+    const user = useSelector(state => state.auth.user);
+    const token = localStorage.getItem("token") || "";
     const role = user?.publicMetadata?.role;
 
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
         mutationFn: async () => {
-            const token = await getToken();
             return axios.delete(`${import.meta.env.VITE_BACKEND_URL}/comments/${comment._id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
