@@ -132,7 +132,7 @@ const Write = () => {
                         className="p-4 rounded-xl bg-white shadow-md"
                     />
 
-                    <div className="flex items-center gap-4 relative bg-white rounded-full w-[500px]">
+                    <div className="flex items-center gap-4 relative bg-white rounded-full w-full md:w-[500px]">
                         <input
                             type="text"
                             placeholder="Enter a topic for content generation..."
