@@ -20,7 +20,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="w-full h-16 md:h-20 flex justify-between items-center z-[100000] sticky top-0">
+        <nav className="w-full h-16 md:h-20 flex justify-between items-center z-[100000] sticky top-0 bg-[#e6e6ff]">
             <Link to="/" className="flex items-center gap-4 text-2xl font-bold">
                 <Image
                     path="/logo.png"
