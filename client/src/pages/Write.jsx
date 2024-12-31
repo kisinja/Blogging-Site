@@ -9,6 +9,8 @@ import Upload from "../components/Upload";
 import { FcPicture } from "react-icons/fc";
 import { FcFilmReel } from "react-icons/fc";
 import NewFeaturePopup from '../components/NewFeaturePopup';
+import { ChatOpenAI } from '@langchain/openai';
+import { PromptTemplate } from '@langchain/core/prompts';
 
 const Write = () => {
 
@@ -16,6 +18,8 @@ const Write = () => {
     const [value, setValue] = useState('');
     const nav = useNavigate();
 
+    const [topic, setTopic] = useState('');
+    const [isGenerating, setIsGenerating] = useState(false);
     const [cover, setCover] = useState(null);
     const [img, setImg] = useState(null);
     const [video, setVideo] = useState(null);
@@ -57,6 +61,31 @@ const Write = () => {
         };
 
         mutation.mutate(data);
+    };
+
+    const handleGenerateContent = async () => {
+        if (!topic) {
+            return toast.error('Please enter a topic');
+        };
+
+        setIsGenerating(true);
+
+        try {
+            const llm = new ChatOpenAI({ openAIApiKey: import.meta.env.VITE_OPEN_AI_API_KEY });
+            const topicTemplate = 'Write a detailed blog post about {topic}, with a title too. Include an introduction, main content with subheadings, and a conclusion. Use bold headings, bullet points, and images to make the content engaging as react quill is being used to write the content. The content should be at least 500 words long.';
+            const topicTemplatePrompt = PromptTemplate.fromTemplate(topicTemplate);
+            const topicTemplateChain = topicTemplatePrompt.pipe(llm);
+            const response = await topicTemplateChain.invoke({
+                topic: topic,
+            });
+
+            setValue(response.content);
+        } catch (error) {
+            toast.error('Failed to generate content');
+            console.log(error.message);
+        } finally {
+            setIsGenerating(false);
+        }
     };
 
     return (
@@ -102,6 +131,25 @@ const Write = () => {
                         placeholder="A Short Description"
                         className="p-4 rounded-xl bg-white shadow-md"
                     />
+
+                    <div className="flex items-center gap-4 relative bg-white rounded-full w-[500px]">
+                        <input
+                            type="text"
+                            placeholder="Enter a topic for content generation..."
+                            className="bg-transparent text-sm outline-none p-2 rounded-full flex-1 placeholder:text-sm placeholder:italic text-gray-800"
+                            value={topic}
+                            onChange={(e) => setTopic(e.target.value)}
+                        />
+                        <button
+                            type="button"
+                            onClick={handleGenerateContent}
+                            className="bg-green-600 text-white font-medium rounded-full py-2 px-4 w-fit"
+                            disabled={isGenerating}
+                        >
+                            {isGenerating ? 'Generating...' : 'Generate Content'}
+                        </button>
+                    </div>
+
                     <div className="flex flex-1 relative">
                         <div className="flex items-center gap-2 mr-2 absolute top-1 right-0 bg-red-100 p-1 rounded shadow-sm">
                             <Upload setData={setImg} setProgress={setProgress} type="image">
