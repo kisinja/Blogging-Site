@@ -29,8 +29,6 @@ const OAuth = () => {
             });
 
             if (data.success) {
-                console.log(data);
-
                 // set token to local storage
                 localStorage.setItem("token", data.token);
 
@@ -39,6 +37,8 @@ const OAuth = () => {
 
                 // set user to redux store
                 dispatch(setUser(data.user));
+
+                toast.success("Logged in successfully");
             } else {
                 toast.error(data.message);
             }

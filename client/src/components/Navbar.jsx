@@ -5,6 +5,7 @@ import { TiThMenu } from "react-icons/ti";
 import { useSelector, useDispatch } from "react-redux";
 import { logOut } from "../firebase.js";
 import { FiLogOut } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
     const [openMenu, setOpenMenu] = useState(false);
@@ -14,6 +15,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         dispatch(logOut()); // Dispatch logout action
+        toast.info('Logged out');
         setDropdownOpen(false); // Close dropdown after logout
     };
 

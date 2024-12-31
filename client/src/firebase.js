@@ -38,6 +38,12 @@ export const logOut = () => {
         try {
             await signOut(auth);
             dispatch(clearUser());
+
+            // Clear the user from localStorage
+            localStorage.removeItem("user");
+
+            // clear token from localStorage
+            localStorage.removeItem("token");
         } catch (error) {
             console.error("Error signing out: ", error);
         }
