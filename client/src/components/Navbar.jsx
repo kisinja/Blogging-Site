@@ -88,7 +88,12 @@ const Navbar = () => {
                         {dropdownOpen && (
                             <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-md py-2 z-10">
                                 <Link to="/profile">
-                                    <p className="px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">@  {user.username}</p>
+                                    <p
+                                        onClick={() => setDropdownOpen(false)}
+                                        className="px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
+                                    >
+                                        @  {user.username}
+                                    </p>
                                 </Link>
                                 <button
                                     onClick={handleLogout}
