@@ -62,7 +62,7 @@ const AppProvider = ({ children }) => {
 
     const handleShareToPlatform = (platform, post) => {
         const { title, slug, _id: postId } = post;
-        const postUrl = `https://elvisblog.onrender.com/posts/${slug}`;
+        const postUrl = `https://elvisblog.onrender.com/${slug}`;
         const text = encodeURIComponent(`Check out this post: ${title} - ${postUrl}`);
         let shareUrl = "";
 
