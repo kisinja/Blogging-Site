@@ -11,6 +11,7 @@ import postRouter from './routes/post.js';
 import commentRouter from './routes/comment.js';
 import webHookRouter from './routes/webhooks.js';
 import authRouter from './routes/auth.js';
+import generateAndSaveEmbeddings from './embeddings.js';
 
 import connectDB from './db.js';
 
@@ -87,5 +88,6 @@ app.use((error, req, res, next) => {
 
 app.listen(port, () => {
     connectDB();
+    //generateAndSaveEmbeddings();
     console.log(`Server is running on ${port}`);
 });

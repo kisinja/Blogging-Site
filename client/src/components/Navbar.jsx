@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logOut } from "../firebase.js";
 import { FiLogOut } from "react-icons/fi";
 import { toast } from "react-toastify";
+import HomeSearch from "./HomeSearch.jsx";
 
 const Navbar = () => {
     const [openMenu, setOpenMenu] = useState(false);
@@ -45,6 +46,9 @@ const Navbar = () => {
                 </div>
 
                 <div className={`w-full z-50 h-screen flex flex-col items-center justify-center absolute top-16 ${openMenu ? 'right-0' : 'right-[100%]'} transition-all ease-in-out bg-[#e6e6ff] gap-8 font-medium text-lg`}>
+
+                    <HomeSearch />
+
                     <Link to="/" onClick={() => setOpenMenu(prev => !prev)}>Home</Link>
                     <Link to="/write" onClick={() => setOpenMenu(prev => !prev)}>Write a story</Link>
                     <Link to="/posts" onClick={() => setOpenMenu(prev => !prev)}>Posts</Link>

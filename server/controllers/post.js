@@ -1,6 +1,21 @@
 import ImageKit from 'imagekit';
 import Post from '../models/Post.js';
 import User from '../models/User.js';
+import { OpenAIEmbeddings } from '@langchain/openai';
+
+const imagekit = new ImageKit({
+    urlEndpoint: "https://ik.imagekit.io/kisinjakit",
+    publicKey: "public_55qUsE/ezrLLUf90TsOw3bbMPpY=",
+    //publicKey: process.env.IK_PUBLIC_KEY,
+    privateKey: "private_2B7Jmd02SKHKze2CPC+NSTF/TDI=",
+});
+
+const uploadAuth = async (req, res) => {
+
+    let result = imagekit.getAuthenticationParameters();
+    console.log(result);
+    res.status(200).json(result);
+};
 
 const getPosts = async (req, res) => {
 
@@ -173,18 +188,41 @@ const sharePost = async (req, res) => {
     res.status(200).json({ shares: post.shares });
 };
 
-const imagekit = new ImageKit({
-    urlEndpoint: "https://ik.imagekit.io/kisinjakit",
-    publicKey: "public_55qUsE/ezrLLUf90TsOw3bbMPpY=",
-    //publicKey: process.env.IK_PUBLIC_KEY,
-    privateKey: "private_2B7Jmd02SKHKze2CPC+NSTF/TDI=",
-});
+const searchPosts = async (req, res) => {
 
-const uploadAuth = async (req, res) => {
+    const { query } = req.body;
 
-    let result = imagekit.getAuthenticationParameters();
-    console.log(result);
-    res.status(200).json(result);
+    try {
+        const embeddingModel = new OpenAIEmbeddings({
+            openAIApiKey: process.env.OPENAI_API_KEY,
+        });
+        const queryEmbedding = await embeddingModel.embedQuery(query);
+
+        const posts = await Post.aggregate([
+            {
+                '$vectorSearch': {
+                    index: 'posts_embeddings',
+                    path: 'embeddings',
+                    queryVector: queryEmbedding,
+                    numCandidates: 150,
+                    limit: 5
+                }
+            }, {
+                '$project': {
+                    title: 1,
+                    slug: 1,
+                    score: {
+                        '$meta': 'vectorSearchScore'
+                    }
+                }
+            }
+        ]);
+
+        res.status(200).json({ posts, success: true });
+
+    } catch (error) {
+        console.log("Error searching for posts:", error);
+    }
 };
 
 export {
@@ -195,4 +233,5 @@ export {
     uploadAuth,
     featurePost,
     sharePost,
+    searchPosts,
 };
