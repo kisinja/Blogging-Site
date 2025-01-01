@@ -205,7 +205,7 @@ const searchPosts = async (req, res) => {
                     path: 'embeddings',
                     queryVector: queryEmbedding,
                     numCandidates: 150,
-                    limit: 5
+                    limit: 5,
                 }
             }, {
                 '$project': {
