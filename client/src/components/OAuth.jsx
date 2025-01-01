@@ -1,4 +1,4 @@
-import googleIcon from "../../public/google.svg";
+import googleIcon from "../../public/google-icon.png";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { toast } from "react-toastify";
 import { app } from "../firebase.js";
@@ -50,9 +50,9 @@ const OAuth = () => {
     };
 
     return (
-        <button className="w-full bg-transparent border border-gray-500 text-gray-500 py-2 rounded-full text-base hover:bg-gray-500 hover:text-white transition-all duration-300 ease-in-out" onClick={handleGoogleLogin} type="button">
+        <button className="w-full bg-transparent border border-gray-500 text-gray-500 py-2 rounded-full text-base hover:bg-blue-100 transition-all duration-300 ease-in-out hover:border-none hover:shadow" onClick={handleGoogleLogin} type="button">
             <img src={googleIcon} alt="Google" className="w-6 h-6 inline-block mr-2" />
-            Continue with Google
+            Sign in with Google
         </button>
     );
 };
