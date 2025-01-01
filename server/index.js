@@ -88,6 +88,6 @@ app.use((error, req, res, next) => {
 
 app.listen(port, () => {
     connectDB();
-    //generateAndSaveEmbeddings();
+    generateAndSaveEmbeddings();
     console.log(`Server is running on ${port}`);
 });
