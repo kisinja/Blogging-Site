@@ -1,12 +1,24 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
+
+const highLightText = (text, query) => {
+    if (!query.trim()) return text;
+
+    const regex = new RegExp(`(${query.trim()})`, 'gi');
+    return text.split(regex).map((part, index) => part.toLowerCase() === query.toLowerCase() ? (
+        <span className="text-blue-800 text-xs underline font-semibold" key={index}>{part}</span>
+    ) : part);
+};
 
 const HomeSearch = () => {
     const [query, setQuery] = useState('');
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [err, setErr] = useState('');
+
+    const { setOpenMenu } = useContext(AppContext);
 
     const handleSearch = async (query) => {
         setLoading(true);
@@ -75,8 +87,18 @@ const HomeSearch = () => {
                                     <span className="text-gray-500 text-xs">
                                         {index + 1}.
                                     </span>
-                                    <Link to={`${post.slug}`} onClick={() => setQuery('')}>
-                                        <h3 className="font-medium text-xs">{post.title.slice(0, 50)}...</h3>
+                                    <Link to={`${post.slug}`} onClick={
+                                        () => {
+                                            setQuery('');
+                                            setOpenMenu(false);
+                                        }
+                                    }>
+                                        <h3 className="font-medium text-xs"
+                                        >
+                                            {
+                                                highLightText(post.title.slice(0, 50), query)
+                                            }...
+                                        </h3>
                                     </Link>
                                 </li>
                             ))}

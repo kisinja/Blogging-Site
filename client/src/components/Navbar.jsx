@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Image from "./Image";
 import { Link } from "react-router-dom";
 import { TiThMenu } from "react-icons/ti";
@@ -7,9 +7,10 @@ import { logOut } from "../firebase.js";
 import { FiLogOut } from "react-icons/fi";
 import { toast } from "react-toastify";
 import HomeSearch from "./HomeSearch.jsx";
+import { AppContext } from "../context/AppContext.jsx";
 
 const Navbar = () => {
-    const [openMenu, setOpenMenu] = useState(false);
+    const { openMenu, setOpenMenu } = useContext(AppContext);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);

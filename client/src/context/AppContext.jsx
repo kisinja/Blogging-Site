@@ -13,6 +13,7 @@ const AppProvider = ({ children }) => {
     );
     const [userData, setUserData] = useState(false);
     const [userLoading, setUserLoading] = useState(false);
+    const [openMenu, setOpenMenu] = useState(false);
 
     const loadUserProfile = async () => {
         try {
@@ -107,7 +108,9 @@ const AppProvider = ({ children }) => {
         setToken,
         userData,
         userLoading,
-        backendUrl
+        backendUrl,
+        openMenu,
+        setOpenMenu,
     };
 
     useEffect(() => {
