@@ -103,7 +103,7 @@ const Write = () => {
                     </Upload>
 
                     <span>
-                        {cover && <p className="text-sm">{cover.filePath}</p>}
+                        {cover && <p className="text-sm">{cover}</p>}
                     </span>
 
                     <input
