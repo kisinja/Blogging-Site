@@ -102,10 +102,6 @@ const Write = () => {
                         </button>
                     </Upload>
 
-                    <span>
-                        {cover && <p className="text-sm">{cover}</p>}
-                    </span>
-
                     <input
                         type="text"
                         placeholder="My Awesome Story"
