@@ -49,7 +49,6 @@ const Write = () => {
         }
     });
 
-    console.log(cover);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -108,7 +107,7 @@ const Write = () => {
                     {cover ? (
                         <div className='flex gap-2 bg-white p-2 rounded-lg w-[70%] md:w-[300px] items-center border-dashed border-2 border-gray-600 relative'>
                             <div>
-                                <Image src={cover} className="w-20 h-20 rounded-full object-cover" />
+                                <Image src={cover} className=" w-14 h-14  md:w-20 md:h-20 rounded-full object-cover" />
                             </div>
                             <div className='text-xs text-gray-500 flex flex-col gap-2'>
                                 <p className='font-semibold'>Selected Image:</p>
