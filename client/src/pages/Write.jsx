@@ -11,6 +11,8 @@ import { FcFilmReel } from "react-icons/fc";
 import NewFeaturePopup from '../components/NewFeaturePopup';
 import { ChatOpenAI } from '@langchain/openai';
 import { PromptTemplate } from '@langchain/core/prompts';
+import Image from '../components/Image';
+import { FiX } from 'react-icons/fi';
 
 const Write = () => {
 
@@ -46,6 +48,8 @@ const Write = () => {
             nav(`/${res.data.slug}`);
         }
     });
+
+    console.log(cover);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -88,6 +92,11 @@ const Write = () => {
         }
     };
 
+    const handleRemoveCover = () => {
+        setCover(null);
+        setProgress(0);
+    };
+
     return (
         <>
             <NewFeaturePopup />
@@ -96,16 +105,40 @@ const Write = () => {
 
                 <form className="flex flex-col gap-6 flex-1 mb-6 " onSubmit={handleSubmit}>
 
-                    <Upload setData={setCover} setProgress={setProgress} type="image">
-                        <button className="p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white w-max">
-                            Add a cover image
-                        </button>
-                    </Upload>
+                    {cover ? (
+                        <div className='flex gap-2 bg-white p-2 rounded-lg w-[70%] md:w-[300px] items-center border-dashed border-2 border-gray-600 relative'>
+                            <div>
+                                <Image src={cover} className="w-20 h-20 rounded-full object-cover" />
+                            </div>
+                            <div className='text-xs text-gray-500 flex flex-col gap-2'>
+                                <p className='font-semibold'>Selected Image:</p>
+                                <p className="underline">{cover.split("/")[4]}</p>
+                                <FiX
+                                    className="text-2xl cursor-pointer text-red-600 hover:underline ml-2 absolute top-0 right-0"
+                                    onClick={handleRemoveCover}
+                                    title='remove'
+                                />
+                            </div>
+                        </div>
+                    ) : (
+                        <Upload setData={setCover} setProgress={setProgress} type="image">
+                            <button className="p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white w-fit active:scale-95" type='button'>
+                                Add a cover image
+                            </button>
+                        </Upload>
+                    )}
 
-                    <div className='text-xs text-gray-500 flex gap-2 items-center'>
-                        {cover && <p>Selected Image: </p>}
-                        {cover && <p className="">{cover.split("/")[2]}</p>}
-                    </div>
+                    {progress > 0 && progress < 100 && (
+                        <div className="relative w-[200px] md:w-1/2 bg-gray-200 rounded-full h-4 overflow-hidden">
+                            <div
+                                className="absolute top-0 left-0 h-full bg-orange-600 transition-all duration-300"
+                                style={{ width: `${progress}%` }}
+                            />
+                            <span className="absolute inset-0 flex items-center justify-center text-xs text-gray-600 font-semibold">
+                                Uploading: {progress}%
+                            </span>
+                        </div>
+                    )}
 
                     <input
                         type="text"
