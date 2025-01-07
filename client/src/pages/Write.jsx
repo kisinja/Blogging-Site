@@ -102,9 +102,10 @@ const Write = () => {
                         </button>
                     </Upload>
 
-                    <span>
-                        {cover && <p className="text-sm">{cover}</p>}
-                    </span>
+                    <div className='text-xs text-gray-500 flex gap-2 items-center'>
+                        {cover && <p>Selected Image: </p>}
+                        {cover && <p className="">{cover.split("/")[2]}</p>}
+                    </div>
 
                     <input
                         type="text"
