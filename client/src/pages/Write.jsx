@@ -75,7 +75,7 @@ const Write = () => {
 
         try {
             const llm = new ChatOpenAI({ openAIApiKey: import.meta.env.VITE_OPEN_AI_API_KEY });
-            const topicTemplate = 'Write a detailed blog post about {topic}, with a title too. Include an introduction, main content with subheadings, and a conclusion. Use bold headings, bullet points, and images to make the content engaging as react quill is being used to write the content. The content should be at least 500 words long.';
+            const topicTemplate = 'Write a detailed blog post about {topic}, with a title too. Include an introduction, main content with subheadings, and a conclusion. Use bold headings, bullet points, and images to make the content engaging as react quill is being used to write the content. The content should be at least 500 words long. Use the latest findings from the internet';
             const topicTemplatePrompt = PromptTemplate.fromTemplate(topicTemplate);
             const topicTemplateChain = topicTemplatePrompt.pipe(llm);
             const response = await topicTemplateChain.invoke({
