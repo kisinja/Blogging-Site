@@ -2,13 +2,7 @@ import ImageKit from 'imagekit';
 import Post from '../models/Post.js';
 import User from '../models/User.js';
 import { OpenAIEmbeddings } from '@langchain/openai';
-
-const imagekit = new ImageKit({
-    urlEndpoint: "https://ik.imagekit.io/kisinjakit",
-    publicKey: "public_55qUsE/ezrLLUf90TsOw3bbMPpY=",
-    //publicKey: process.env.IK_PUBLIC_KEY,
-    privateKey: "private_2B7Jmd02SKHKze2CPC+NSTF/TDI=",
-});
+import imagekit from '../imageKitConfig.js';
 
 const uploadAuth = async (req, res) => {
 

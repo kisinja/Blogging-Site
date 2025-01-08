@@ -11,14 +11,13 @@ import { AppContext } from "../context/AppContext.jsx";
 
 const Navbar = () => {
     const { openMenu, setOpenMenu } = useContext(AppContext);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const handleLogout = () => {
         dispatch(logOut()); // Dispatch logout action
         toast.info('Logged out');
-        setDropdownOpen(false); // Close dropdown after logout
     };
 
     return (
@@ -47,7 +46,6 @@ const Navbar = () => {
                 </div>
 
                 <div className={`w-full z-50 h-screen flex flex-col items-center justify-center absolute top-16 ${openMenu ? 'right-0' : 'right-[100%]'} transition-all ease-in-out bg-[#e6e6ff] gap-8 font-medium text-lg`}>
-
                     <HomeSearch />
 
                     <Link to="/" onClick={() => setOpenMenu(prev => !prev)}>Home</Link>
@@ -63,7 +61,7 @@ const Navbar = () => {
                         </Link>
                     ) : (
                         <div className="flex flex-col items-center gap-4">
-                            <img src={user.img} alt="User" className="w-8 h-8 rounded-full" />
+                            <Image src={user.img} alt="User" className="w-8 h-8 rounded-full" />
                             <button onClick={handleLogout} className="py-2 px-4 rounded-3xl bg-red-600 text-white">Logout</button>
                         </div>
                     )}
@@ -83,12 +81,15 @@ const Navbar = () => {
                         <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">Login 👋</button>
                     </Link>
                 ) : (
-                    <div className="relative">
+                    <div
+                        className="relative"
+                        onMouseEnter={() => setDropdownOpen(true)} // Show dropdown on hover
+                        onMouseLeave={() => setDropdownOpen(false)} // Hide dropdown on mouse leave
+                    >
                         <Image
                             src={user.img}
                             alt="User"
                             className="w-8 h-8 rounded-full cursor-pointer"
-                            onClick={() => setDropdownOpen(prev => !prev)}
                         />
                         {dropdownOpen && (
                             <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-md py-2 z-10">

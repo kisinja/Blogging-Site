@@ -32,6 +32,8 @@ const __dirname = path.dirname(__filename);
 // middleware to allow sending of public files
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/uploads', express.static('uploads'));
+
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header(

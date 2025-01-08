@@ -71,7 +71,7 @@ const SinglePost = () => {
                             <Link className='text-blue-800'>{data.user.username}</Link>
                         </div>
                         <p className='text-sm text-gray-500'>
-                            {data.user?.bio || 'No bio'}
+                            {data.user?.bio}
                         </p>
                         <div className="flex gap-2">
                             <Link>

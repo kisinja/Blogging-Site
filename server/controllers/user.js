@@ -1,3 +1,4 @@
+import imagekit from '../imageKitConfig.js';
 import User from '../models/User.js';
 
 const getSavedPosts = async (req, res) => {
@@ -53,8 +54,32 @@ const getUserProfile = async (req, res) => {
     }
 };
 
+const updateUserProfile = async (req, res) => {
+    const userId = req.user;
+    try {
+        const updatedData = req.body;
+
+        /* if (req.file) {
+            const file = req.file;
+            const result = await imagekit.upload({
+                file: file.buffer,
+                fileName: file.originalFileName,
+                folder: '/elvisBlogProfileImages',
+            });
+
+            updatedData.img = result.url;
+        } */
+
+        const updatedUser = await User.findByIdAndUpdate(userId, updatedData, { new: true });
+        res.status(200).json({ success: true, user: updatedUser });
+    } catch (error) {
+        res.status(500).json({ error: 'Error updating profile', details: error.message, success: false });
+    }
+};
+
 export {
     getSavedPosts,
     savePost,
     getUserProfile,
+    updateUserProfile
 };

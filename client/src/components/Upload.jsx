@@ -24,13 +24,11 @@ const Upload = ({ setData, setProgress, children, type }) => {
     const ref = useRef(null);
 
     const onError = (err) => {
-        console.log(err);
         toast.error('Image upload failed!');
     };
 
     const onSuccess = (res) => {
         setData(res.url);
-        console.log(res);
     };
 
     const onUploadProgress = (progress) => {
