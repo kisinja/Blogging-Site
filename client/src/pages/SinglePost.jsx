@@ -70,9 +70,11 @@ const SinglePost = () => {
                             {data.user.img && <Image src={data.user.img} className="w-12 h-12 rounded-full object-cover" w="48" h="48" />}
                             <Link className='text-blue-800'>{data.user.username}</Link>
                         </div>
-                        <p className='text-sm text-gray-500'>
-                            {data.user?.bio || 'No bio'}
-                        </p>
+                        {data.user.bio && (
+                            <p className='text-sm text-gray-500'>
+                                {data.user.bio}
+                            </p>
+                        )}
                         <div className="flex gap-2">
                             <Link>
                                 <Image path="facebook.svg" />
