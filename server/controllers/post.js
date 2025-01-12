@@ -71,7 +71,7 @@ const getPosts = async (req, res) => {
     }
 
     const posts = await Post.find(query)
-        .populate('user', 'username email img')
+        .populate('user', 'username email img bio')
         .limit(limit)
         .sort(sortObj)
         .skip(limit * (page - 1));
