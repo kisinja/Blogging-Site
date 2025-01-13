@@ -158,7 +158,7 @@ const PostMenuActions = ({ post }) => {
                 {saveMutation.isPending && <span className='text-xs'>(in progress)</span>}
             </div>}
 
-            <div className='mt-3'>
+            <div className='mb-4'>
                 <div className='flex gap-2 items-center cursor-pointer' onClick={handleLike}>
                     {isLiked ? <AiFillLike size={21} /> : <AiOutlineLike size={21} />}
                     <span className='text-sm'>
