@@ -18,7 +18,7 @@ const HomeSearch = () => {
     const [loading, setLoading] = useState(false);
     const [err, setErr] = useState('');
 
-    const { setOpenMenu } = useContext(AppContext);
+    const { openMenu, setOpenMenu } = useContext(AppContext);
 
     const handleSearch = async (query) => {
         setLoading(true);
@@ -78,7 +78,7 @@ const HomeSearch = () => {
             {err && <p className="text-sm text-red-500 mt-1 p-2 absolute z-10">{err}</p>}
 
             {
-                posts.length > 0 && query.trim() !== "" && (
+                posts.length > 0 && query.trim() !== "" && openMenu && (
                     <div className="mt-4 absolute bg-white w-fit p-4 rounded-lg shadow-lg right-[-20%] z-10">
                         <h2 className="font-semibold text-sm text-blue-800">Search Results:</h2>
                         <ul>
