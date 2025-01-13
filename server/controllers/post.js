@@ -216,6 +216,31 @@ const searchPosts = async (req, res) => {
 
     } catch (error) {
         console.log("Error searching for posts:", error);
+        res.status(500).json({ message: error.message, success: false });
+    }
+};
+
+// Like a post
+const likePost = async (req, res) => {
+    const userId = req.user;
+    const postId = req.params.id;
+
+    try {
+        const post = await Post.findById(postId);
+        if (!post) return res.status(404).json({ message: 'Post not found', success: false });
+
+        const isLiked = post.likes.includes(userId);
+        if (isLiked) {
+            post.likes = post.likes.filter(id => id.toString() !== userId);
+        } else {
+            post.likes.push(userId);
+        }
+
+        await post.save();
+        res.status(200).json({ likes: post.likes, success: true });
+    } catch (error) {
+        console.log("Error searching for posts:", error);
+        res.status(500).json({ message: error.message, success: false });
     }
 };
 
@@ -228,4 +253,5 @@ export {
     featurePost,
     sharePost,
     searchPosts,
+    likePost
 };

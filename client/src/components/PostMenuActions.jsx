@@ -1,14 +1,21 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
 
 const PostMenuActions = ({ post }) => {
 
     const user = useSelector(state => state.auth.user);
     const token = localStorage.getItem('token') || "";
     const navigate = useNavigate();
+
+    const [likes, setLikes] = useState(post.likes);
+    const userId = user?._id;
+
+    const isLiked = Array.isArray(post.likes) && post.likes.includes(userId);
 
     const { isPending, error, data: savedPosts } = useQuery({
         queryKey: ["savedPosts"],
@@ -95,6 +102,39 @@ const PostMenuActions = ({ post }) => {
 
     const isFeatured = post.isFeatured;
 
+    const handleLike = async () => {
+        if (!user) {
+            return navigate("/login");
+        }
+
+        try {
+            // Optimistically update UI
+            const updatedLikes = isLiked
+                ? likes.filter(id => id !== userId)
+                : [...likes, userId];
+
+            setLikes(updatedLikes);
+
+            // Send the like request to the backend
+            const { data } = await axios.put(
+                `${import.meta.env.VITE_BACKEND_URL}/posts/${post._id}/like`,
+                { userId },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            if (!data.success) {
+                // If backend fails, revert the optimistic update
+                setLikes(likes);
+            }
+        } catch (error) {
+            console.error("Error liking post:", error);
+            toast.error("Could not like post!");
+            // Revert optimistic update on failure
+            setLikes(likes);
+        }
+    };
+
+
     return (
         <div>
             <h1 className='mt-8 mb-4 text-sm font-medium'>Actions</h1>
@@ -117,6 +157,15 @@ const PostMenuActions = ({ post }) => {
                 </span>
                 {saveMutation.isPending && <span className='text-xs'>(in progress)</span>}
             </div>}
+
+            <div className='mt-3'>
+                <div className='flex gap-2 items-center cursor-pointer' onClick={handleLike}>
+                    {isLiked ? <AiFillLike size={21} /> : <AiOutlineLike size={21} />}
+                    <span className='text-sm'>
+                        {isLiked ? `${likes.length}` : 'Like this post'}
+                    </span>
+                </div>
+            </div>
 
             {user.role === "admin" && (
                 <div

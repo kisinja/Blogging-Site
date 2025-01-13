@@ -1,5 +1,5 @@
 import express from 'express';
-import { getPosts, getPostsBySlug, createPost, deletePost, uploadAuth, featurePost, sharePost, searchPosts } from '../controllers/post.js';
+import { getPosts, getPostsBySlug, createPost, deletePost, uploadAuth, featurePost, sharePost, searchPosts, likePost } from '../controllers/post.js';
 import increaseVisit from '../middlewares/increaseVisit.js';
 import authUser from '../middlewares/authUser.js';
 const router = express.Router();
@@ -19,5 +19,7 @@ router.patch('/feature', authUser, featurePost);
 router.patch('/share', sharePost);
 
 router.post('/search', searchPosts);
+
+router.put('/:id/like', authUser, likePost);
 
 export default router;

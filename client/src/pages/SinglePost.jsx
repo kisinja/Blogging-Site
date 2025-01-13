@@ -6,8 +6,10 @@ import Comments from '../components/Comments';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { AppContext } from '../context/AppContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import ShareButtons from '../components/ShareButtons';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 const fetchPost = async (slug) => {
     const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/posts/${slug}`);
@@ -30,6 +32,7 @@ const SinglePost = () => {
     if (isPending) return <div>Loading...</div>;
     if (error) return <div>Something went wrong....{error.message}</div>;
     if (!data) return <div>Post not found</div>;
+
 
     return (
         <div className="flex flex-col gap-8">
