@@ -71,7 +71,7 @@ const getPosts = async (req, res) => {
     }
 
     const posts = await Post.find(query)
-        .populate('user', 'username email img bio')
+        .populate('user', 'username email img bio likes')
         .limit(limit)
         .sort(sortObj)
         .skip(limit * (page - 1));
@@ -84,7 +84,7 @@ const getPosts = async (req, res) => {
 
 const getPostsBySlug = async (req, res) => {
 
-    const post = await Post.findOne({ slug: req.params.slug }).populate('user', 'username img');
+    const post = await Post.findOne({ slug: req.params.slug }).populate('user', 'username img bio likes');
 
     res.status(200).json(post);
 };
