@@ -52,7 +52,7 @@ const OAuth = () => {
     return (
         <button className="w-full bg-transparent border border-gray-500 text-gray-500 py-2 rounded-full text-base hover:bg-blue-100 transition-all duration-300 ease-in-out hover:border-none hover:shadow" onClick={handleGoogleLogin} type="button">
             <img src={googleIcon} alt="Google" className="w-6 h-6 inline-block mr-2" />
-            Sign in with Google
+            Continue with Google
         </button>
     );
 };
